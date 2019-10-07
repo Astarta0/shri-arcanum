@@ -1,0 +1,21 @@
+.search {
+    display: flex;
+
+    &__input {
+        width: 250px;
+        border-radius: 4px;
+        height: 30px;
+
+        &:focus {
+            border: 1px solid var(--red-border-color);
+        }
+    }
+}
+
+@media (max-width: 360px) {
+    .search {
+        &__input {
+            width: 100%;
+        }
+    }
+}

@@ -1,0 +1,135 @@
+.table {
+    display: flex;
+    flex-direction: column;
+
+    &__header {
+        display: flex;
+        height: 44px;
+        border-bottom: 1px var(--separator) solid;
+
+        &_justify_space-between {
+            justify-content: space-between;
+        }
+    }
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__cell {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        &:first-child {
+            padding-left: var(--space-xs);
+        }
+
+        &:last-child {
+            padding-right: var(--space-xs);
+            justify-content: flex-end;
+        }
+
+        & + & {
+            margin-left: var(--space-xxl);
+        }
+
+        &_header {
+            color: var(--light-gray-text);
+        }
+
+        &_name {
+            flex-basis: 25%;
+            overflow: hidden;
+            cursor: pointer;
+
+            .icon {
+                flex-shrink: 0;
+            }
+        }
+
+        &_commit {
+            flex-basis: 100px;
+        }
+
+        &_message {
+            flex: 1;
+
+            overflow: hidden;
+            span {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+
+        &_committer {
+            flex-basis: 10%;
+
+            p {
+                margin-top: 0;
+                margin-bottom: 0;
+            }
+        }
+
+        &_updated {
+            flex-basis: 120px;
+        }
+
+        &_full {
+            flex-basis: 100%;
+        }
+    }
+}
+
+@media (max-width: 960px) {
+    .table {
+        &__header {
+            display: none;
+        }
+
+        &__cell {
+            flex-basis: 100%;
+
+            &:first-child {
+                padding-left: 0;
+            }
+
+            &:last-child {
+                padding-right: 0;
+                justify-content: flex-start;
+            }
+
+            /* mobile */
+            &_name {
+                order: 1;
+            }
+
+            &_message {
+                position: relative;
+                order: 2;
+            }
+
+            &_commit {
+                flex-basis: auto;
+                order: 3;
+            }
+
+            &_committer {
+                flex-basis: auto;
+                order: 4;
+            }
+
+            &_updated {
+                order: 5;
+                flex-basis: auto;
+            }
+
+            & + & {
+                margin-left: 0;
+            }
+        }
+    }
+}
+

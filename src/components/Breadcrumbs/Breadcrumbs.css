@@ -1,0 +1,41 @@
+.breadcrumbs {
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    padding: var(--space-s) 0;
+    min-height: 42px;
+    border-bottom: 1px var(--separator) solid;
+
+    &__item {
+        display: flex;
+        cursor: pointer;
+        color: var(--inactive-text);
+        font-size: var(--font-size-s);
+        line-height: var(--line-height-s);
+
+        &_active {
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        &:after {
+            cursor: default;
+            display: block;
+            content: '/';
+            margin: 0 var(--space-s);
+        }
+
+        &:last-child {
+            &:after {
+                display: none;
+            }
+        }
+    }
+}
+
+@media (max-width: 960px) {
+    .breadcrumbs {
+        min-height: 40px;
+        flex-wrap: wrap;
+    }
+}

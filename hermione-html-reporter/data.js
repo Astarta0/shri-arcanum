@@ -1,0 +1,2 @@
+var data = {"skips":[],"config":{"defaultView":"all","baseHost":"","scaleImages":false,"lazyLoadOffset":800,"errorPatterns":[],"metaInfoBaseUrls":{}},"apiValues":{"extraItems":{},"metaInfoExtenders":{},"imagesSaver":{"saveImg":"async (srcCurrPath, {destPath, reportDir}) => {\n        await utils.copyImageAsync(srcCurrPath, destPath, reportDir);\n\n        return destPath;\n    }"}},"date":"Sun Oct 06 2019 18:13:40 GMT+0300 (Moscow Standard Time)"};
+try { module.exports = data; } catch(e) {}

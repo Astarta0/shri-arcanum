@@ -1,0 +1,127 @@
+.info {
+    min-height: 66px;
+
+    &__title {
+        margin: var(--space-s) 0 var(--space-xs);
+        font-size: var(--font-size-xl);
+        line-height: var(--line-height-xl);
+
+        display: flex;
+        align-items: center;
+
+        p {
+            font-weight: bold;
+        }
+
+        &_space_between {
+            justify-content: space-between;
+        }
+    }
+
+    &__BSlabel {
+        font-weight: normal;
+        margin-left: 5px;
+        color: var(--inactive-text);
+    }
+
+    &__description {
+        /* add for commit page */
+        &_mobile {
+            display: none;
+        }
+
+        &_desktop {
+            display: block;
+        }
+    }
+
+    &__buttonBack {
+        display: none;
+    }
+
+    &__buttonToFiles {
+        height: auto;
+        width: max-content;
+        border-radius: 4px;
+        padding: var(--space-xs) var(--space-s);
+        background-color: var(--button-bg-color);
+
+        .text {
+            width: max-content;
+        }
+    }
+
+    &__person {
+        display: inline-block;
+    }
+
+    &__branchSelector {
+        margin-left: var(--space-xxs);
+    }
+
+    &__search {
+        margin-top: var(--space-s);
+    }
+}
+
+@media (max-width: 960px) {
+    .info {
+        height: auto;
+        display: flex;
+        flex-direction: column;
+
+        &__title {
+            font-size: var(--font-size-l);
+            margin-bottom: var(--space-xxs);
+            white-space: nowrap;
+            display: block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+
+            &_space_between {
+                flex-wrap: wrap;
+            }
+        }
+
+       &__BSlabel {
+            font-size: var(--font-size-l);
+        }
+
+        &__description {
+            padding-right: var(--space-xxxl);
+            /* add for commit page */
+            &_mobile {
+                display: block;
+            }
+
+            &_desktop {
+                display: none;
+            }
+        }
+
+        &__buttonBack {
+            display: flex;
+
+            &_order_m1 {
+                order: 1;
+            }
+        }
+
+        &__buttonToFiles{
+            &_order_m2 {
+                order: 2;
+            }
+        }
+    }
+
+    .infoTitle{
+        &__mainText {
+            margin-top: var(--space-s);
+            font-size: var(--font-size-l);
+
+            &_order_m3 {
+                order: 3;
+            }
+        }
+    }
+}

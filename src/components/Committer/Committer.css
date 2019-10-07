@@ -1,0 +1,11 @@
+.committer {
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+
+    &_email {
+        &::first-letter {
+            color: var(--accent-red-color);
+        }
+    }
+}

@@ -1,0 +1,16 @@
+.filesTable {
+    &__spinner {
+        position: absolute;
+        right: calc(50% - 20px);
+        margin-top: 48px;
+    }
+
+    &__infoBlock {
+        margin: var(--space-xxxl) auto;
+        text-align: center;
+
+        &_error {
+            color: var(--accent-red-color);
+        }
+    }
+}

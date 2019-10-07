@@ -1,0 +1,10 @@
+.fileDetails{
+    &__info {
+        margin: var(--space-xxxl) auto;
+        text-align: center;
+
+        &_error {
+            color: var(--accent-red-color);
+        }
+    }
+}
