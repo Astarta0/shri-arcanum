@@ -28,9 +28,12 @@ import { FILES_TYPES, TABS_BY_BREADCRUMB_TYPE } from '../../client/constants';
 export default class Breadcrumbs extends Component {
     handleCrumbClick = ({ index, crumb }) => {
         const { setActiveCrumb, history, fetchFilesList, lastActiveBreadcrumbItem, setActiveTab } = this.props;
+        const { type, name } = crumb;
+        const { type: lastCrumbType, name: lastCrumbName } = lastActiveBreadcrumbItem;
+
+        if (name === lastCrumbName && lastCrumbType === type) return;
 
         const oldPath = history.location.pathname;
-        const { type, name } = crumb;
 
         let updatedPath = clientUtils.cutBreadCrumbsPath({ path: oldPath, name, type });
 
