@@ -88,6 +88,7 @@ app.get('*', prepareState, (req, res) => {
 });
 
 app.use((err, req, res, next) => {
+    console.error(err);
     const error = err.message || '500:\nSorry, it\'s me, not you!   🙀';
     res.status(500);
     res.set({ 'Content-Type': 'text/plain; charset=utf-8' });

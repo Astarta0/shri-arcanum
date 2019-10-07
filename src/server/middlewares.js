@@ -62,6 +62,11 @@ async function getData({ req, state }) {
     // в url есть параметры
     let [ , currentRepo, type, currentBranch, repoPath ] = urlPaths;
 
+    if (!repositoriesInFolder.includes(currentRepo)) {
+        // пустой state c пустым полем currentRepo для редиректа на 404
+        return state;
+    }
+
 
     if (!type || !currentBranch) {
         // отдать содержимое в корне репозитория
@@ -91,11 +96,26 @@ async function getData({ req, state }) {
     }
 
     if (type === FILES_TYPES.blob) {
-        const content = await getFileContent({
-            repositoryId: currentRepo,
-            commitHash: currentBranch,
-            pathToFile: repoPath.slice(1)
-        });
+        let content;
+
+        try {
+            content = await getFileContent({
+                repositoryId: currentRepo,
+                commitHash: currentBranch,
+                pathToFile: repoPath.slice(1)
+            });
+        } catch (err) {
+            console.error(err);
+            // такого файла нет, вернем
+            // state c пустым полем currentRepo для редиректа на 404
+            return {
+                ...state,
+                global: {
+                    ...state.global,
+                    currentRepo: ''
+                }
+            };
+        }
 
         state.global.fileContent = {
             name: cutPathFromFileName(repoPath),

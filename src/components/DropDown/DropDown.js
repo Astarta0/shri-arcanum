@@ -9,6 +9,8 @@ export default class DropDown extends Component {
     render() {
         const { className = '', items, onDropDownClick, value, isOpen, onItemClick, setRef } = this.props;
 
+        if (!value) return null;
+
         return (
             // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
             <div
