@@ -103,4 +103,26 @@ describe('navigation', () => {
             .assertView('tabs', '.tabs')
             .assertView('table', '.table');
     });
+
+    it('Клик по уже активному crumb - url не обновляется', function () {
+        let OldUrl;
+
+        return this.browser
+            .url('/')
+            .leftClick('//span[text() = \'.vscode\']')
+            .pause(500)
+            .assertExists('.breadcrumbs', 'Элемент breadcrumbs не появился')
+            .assertExists('.breadcrumbs__item_active', 'Элемент breadcrumbs__item_active не появился')
+            .assertElementText('.breadcrumbs__item_active', '.vscode', 'Активный breadcrumb с неверным текстом')
+            .getUrl()
+            .then(url => {
+                OldUrl = url;
+            })
+            .leftClick('.breadcrumbs__item_active')
+            .pause(200)
+            .getUrl()
+            .then(url => {
+                assert.equal(OldUrl, url, 'URL обновился при клике на уже активный crumb');
+            });
+    });
 });
