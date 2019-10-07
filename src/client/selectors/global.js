@@ -22,10 +22,6 @@ export const filterFilesBySearchName = state => {
     });
 };
 
-export const getFileContent = state => {
-    return getAll(state).fileContent.content;
-};
+export const getFileContent = state => getAll(state).fileContent.content;
 
-export const getOpenedFileName = state => {
-    return getAll(state).fileContent.name;
-};
+export const getOpenedFileName = state => getAll(state).fileContent.name;

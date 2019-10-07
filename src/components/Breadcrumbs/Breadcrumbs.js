@@ -46,9 +46,7 @@ export default class Breadcrumbs extends Component {
 
         setActiveCrumb({ index });
 
-        if (lastActiveBreadcrumbItem.type !== type) {
-            setActiveTab(TABS_BY_BREADCRUMB_TYPE[type][0]);
-        }
+        setActiveTab(TABS_BY_BREADCRUMB_TYPE[type][0]);
     };
 
     render() {

@@ -45,14 +45,9 @@ export function setNewBreadcrumbPath({ name, type }) {
     };
 }
 
-// GET /api/repos/:repositoryId(/tree/:commitHash/:path)
-// http://localhost:3000/api/repos/differentBranchesRepository/blob/master/folderOnMaster/tests/test.js
-// Возвращает содержимое репозитория по названию ветки (или хэшу комита).
 export function fetchFilesList({ url }) {
     return async function (dispatch, getState) {
-        dispatch({
-            type: TYPE.FETCH_FILES_LIST_PENDING
-        });
+        dispatch(fetchFilesListPending());
 
         if (url === '/') {
             const { currentRepo } = getState().global;
@@ -62,39 +57,65 @@ export function fetchFilesList({ url }) {
         try {
             const { data: { files } } = await AXIOS_INSTANCE.get(config.api.apiBaseUrl + url);
 
-            dispatch({
-                type: TYPE.FETCH_FILES_LIST_SUCCESS,
-                payload: { files }
-            });
+            dispatch(fetchFilesListSuccess({ files }));
         } catch (e) {
-            dispatch({
-                type: TYPE.FETCH_FILES_LIST_FAIL,
-                payload: { error: e.message }
-            });
+            dispatch(fetchFilesListFail(e));
         }
     };
 }
 
 export function fetchFileContent({ url, name }) {
     return async function (dispatch) {
-        dispatch({
-            type: TYPE.FETCH_FILE_CONTENT_PENDING
-        });
+        dispatch(fetchFileContentPending());
 
         try {
             const { data } = await AXIOS_INSTANCE.get(config.api.apiBaseUrl + url, {
                 transformResponse: res => res,
             });
 
-            dispatch({
-                type: TYPE.FETCH_FILE_CONTENT_SUCCESS,
-                payload: { data, name }
-            });
+            dispatch(fetchFileContentSuccess({ data, name }));
         } catch (e) {
-            dispatch({
-                type: TYPE.FETCH_FILE_CONTENT_FAIL,
-                payload: { error: e.message }
-            });
+            dispatch(fetchFileContentFail(e));
         }
+    };
+}
+
+export function fetchFileContentPending() {
+    return {
+        type: TYPE.FETCH_FILE_CONTENT_PENDING
+    };
+}
+
+export function fetchFilesListPending() {
+    return {
+        type: TYPE.FETCH_FILES_LIST_PENDING
+    };
+}
+
+export function fetchFileContentSuccess({ data, name }) {
+    return {
+        type: TYPE.FETCH_FILE_CONTENT_SUCCESS,
+        payload: { data, name }
+    };
+}
+
+export function fetchFilesListSuccess({ files }) {
+    return {
+        type: TYPE.FETCH_FILES_LIST_SUCCESS,
+        payload: { files }
+    };
+}
+
+export function fetchFileContentFail(e) {
+    return {
+        type: TYPE.FETCH_FILE_CONTENT_FAIL,
+        payload: { error: e.message }
+    };
+}
+
+export function fetchFilesListFail(e) {
+    return {
+        type: TYPE.FETCH_FILES_LIST_FAIL,
+        payload: { error: e.message }
     };
 }
