@@ -3,12 +3,6 @@
     display: flex;
     height: 40px;
     border-bottom: 1px var(--separator) solid;
-    overflow-x: scroll;
-    overflow-y: hidden;
-
-    &::-webkit-scrollbar {
-        display: none;
-    }
 
     &__item {
         display: flex;

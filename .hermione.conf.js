@@ -10,11 +10,11 @@ module.exports = {
                 browserName: "chrome"
             }
         },
-        firefox: {
-            desiredCapabilities: {
-                browserName: "firefox"
-            }
-        }
+        // firefox: {
+        //     desiredCapabilities: {
+        //         browserName: "firefox"
+        //     }
+        // }
     },
     sets: {
         all: {
