@@ -6,6 +6,10 @@
         border-radius: 4px;
         height: 30px;
 
+        &_disabled {
+            opacity: 0.5;
+        }
+
         &:focus {
             border: 1px solid var(--red-border-color);
         }

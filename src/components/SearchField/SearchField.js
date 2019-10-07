@@ -24,16 +24,17 @@ export default class SearchField extends Component {
     };
 
     render() {
-        const { searchName, className } = this.props;
+        const { searchName, className, isDisabled = false } = this.props;
 
         return (
             <div className={classNames('search', className)}>
                 <Input
-                    className="search__input"
+                    className={classNames('search__input', isDisabled && 'search__input_disabled')}
                     value={searchName}
                     autoFocus
                     placeholder="Filter by file name..."
                     onChange={this.handleOnChange}
+                    disabled={isDisabled}
                 />
             </div>
         );
