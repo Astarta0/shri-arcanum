@@ -56,7 +56,7 @@ export default class FileDetails extends Component {
         }
 
         return (
-            <CodeFrame fileName={fileName}>
+            <CodeFrame fileName={fileName} fileContent={fileContent}>
                 <Highlight>
                     <code>{fileContent}</code>
                 </Highlight>

@@ -60,8 +60,6 @@ app.get('*', prepareState, (req, res) => {
     const preloadedState = req.state;
     const store = configureStore(preloadedState);
 
-    // console.log( preloadedState.global );
-
     const appHtml = renderToStaticMarkup(
         <Provider store={store}>
             <StaticRouter location={req.url} context={context}>
