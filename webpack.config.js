@@ -14,9 +14,9 @@ module.exports = (_, { mode }) => ({
     module: {
         rules: [
             {
-                test: /\.(js|jsx)$/,
+                test: /\.(ts|tsx|js|jsx)$/,
                 exclude: /node_modules/,
-                use: [ 'babel-loader'/*, 'eslint-loader'*/ ]
+                use: [ 'babel-loader'/* , 'eslint-loader' */ ]
             },
             {
                 test: /\.css$/,
@@ -66,6 +66,7 @@ module.exports = (_, { mode }) => ({
         })
     ],
     resolve: {
+        extensions: [ '.ts', '.tsx', '.js', '.json' ],
         alias: {
             src: path.resolve(__dirname, 'src')
         }

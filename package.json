@@ -9,7 +9,13 @@
     "eslint:fix": "eslint --fix src/** webpack.config.js",
     "test": "jest",
     "hermione": "hermione tests/hermione",
-    "hermione:gui": "hermione gui hermione"
+    "hermione:gui": "hermione gui hermione",
+    "type-check": "tsc --noEmit",
+    "type-check:watch": "npm run type-check -- --watch",
+    "bundle": "webpack",
+    "build": "npm run build:types && npm run build:js",
+    "build:types": "tsc --emitDeclarationOnly",
+    "build:js": "babel src --out-dir lib --extensions \".ts,.tsx\" --source-maps inline"
   },
   "repository": {
     "type": "git",
@@ -22,7 +28,6 @@
   },
   "homepage": "https://github.com/Astarta0/arcanum#readme",
   "dependencies": {
-    "@babel/core": "^7.6.2",
     "@babel/register": "^7.6.2",
     "@babel/runtime": "^7.6.2",
     "axios": "^0.19.0",
@@ -50,12 +55,19 @@
     "yargs": "^14.0.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.6.2",
+    "@babel/core": "^7.6.2",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/plugin-proposal-decorators": "^7.6.0",
     "@babel/plugin-proposal-export-default-from": "^7.5.2",
+    "@babel/plugin-proposal-numeric-separator": "^7.2.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.6.2",
     "@babel/plugin-transform-runtime": "^7.6.2",
     "@babel/preset-env": "^7.6.2",
     "@babel/preset-react": "^7.0.0",
+    "@babel/preset-typescript": "^7.6.0",
+    "@types/react": "^16.9.5",
+    "@types/react-dom": "^16.9.1",
     "babel-eslint": "^10.0.3",
     "babel-loader": "^8.0.6",
     "babel-plugin-module-resolver": "^3.2.0",
@@ -69,16 +81,17 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.15.0",
     "eslint-watch": "^6.0.1",
+    "hermione": "^2.12.6",
+    "hermione-custom-commands": "file:hermione-custom-commands",
+    "html-reporter": "^4.13.1",
     "jest": "^24.9.0",
     "lodash": "^4.17.15",
-    "hermione": "^2.12.6",
-    "html-reporter": "^4.13.1",
     "mini-css-extract-plugin": "^0.8.0",
     "postcss-preset-env": "^6.7.0",
     "style-loader": "^1.0.0",
     "supertest": "^4.0.2",
+    "typescript": "^3.6.3",
     "webpack": "^4.41.0",
-    "webpack-cli": "^3.3.9",
-    "hermione-custom-commands": "file:hermione-custom-commands"
+    "webpack-cli": "^3.3.9"
   }
 }
