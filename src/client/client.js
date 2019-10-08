@@ -11,7 +11,6 @@ import App from 'src/components/App';
 import history from 'src/history';
 import configureStore from '../store/configureStore';
 
-
 // eslint-disable-next-line no-underscore-dangle
 const preloadedState = window.__PRELOADED_STATE__;
 
