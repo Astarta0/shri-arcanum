@@ -3,14 +3,11 @@
 #### DEPENDENCES
  - node v12.6.0+
 
-#### Запуск в режиме разработки
+#### Запуск
 ```
 бекенд: node index.js -p PATH
 фронтенд: npm run webpack
 ```
-
-#### Сборка
-`npm run build`
 
 Используются:
 - [ExpressJS](https://expressjs.com)
