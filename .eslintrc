@@ -1,5 +1,5 @@
 {
-  "parser": "babel-eslint",
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": 6,
     "sourceType": "module",
@@ -13,7 +13,11 @@
       "version": "detect"
     },
     "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      },
       "babel-module": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"],
         "alias": {
           "src": "./src"
         }
@@ -46,7 +50,6 @@
     "comma-dangle": ["off"],
     "quote-props:": ["off", "consistent-as-needed"],
     "no-use-before-define": ["off"],
-    "no-unused-vars": ["warn"],
     "no-nested-ternary": ["warn"],
     "arrow-parens": ["error", "as-needed"],
     "object-curly-newline": ["off", {
@@ -77,7 +80,10 @@
     "prefer-template": "off",
     "jsx-a11y/no-autofocus": "off",
     "no-underscore-dangle": "off",
-    "max-classes-per-file": ["error", 4]
+    "max-classes-per-file": ["error", 4],
+    // https://github.com/typescript-eslint/typescript-eslint/issues/342
+    "no-undef": "off",
+    "no-unused-vars": "off"
   },
   "extends": [
     "eslint:recommended",

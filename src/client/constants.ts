@@ -1,4 +1,6 @@
-export const TABS_BY_BREADCRUMB_TYPE = {
+import { TabNameType } from 'src/components/Tabs/types';
+
+export const TABS_BY_BREADCRUMB_TYPE: Record<'tree' | 'blob', Array<TabNameType>> = {
     tree: [ 'files', 'branches' ],
     blob: [ 'details', 'history' ]
 };

@@ -1,4 +1,9 @@
 import axios from 'axios';
+import { Dispatch as DispatchType } from 'redux';
+
+import { AppStateType } from 'src/types/store';
+import { getStateType, ThunkAction, RawThunkAction, ThunkDispatch } from 'src/types/actions';
+
 
 import config from 'src/config';
 import * as TYPE from './types';
@@ -7,7 +12,7 @@ const AXIOS_INSTANCE = axios.create({
     baseURL: `http://localhost:${config.server.port}`
 });
 
-export function setActiveCrumb({ index, item }) {
+export function setActiveCrumb({ index, item }: { index?: number, item?: string }) {
     return {
         type: TYPE.SET_ACTIVE_CRUMB,
         payload: { index, item }
@@ -45,8 +50,8 @@ export function setNewBreadcrumbPath({ name, type }) {
     };
 }
 
-export function fetchFilesList({ url }) {
-    return async function (dispatch, getState) {
+export function fetchFilesList({ url }: { url: string }): ThunkAction {
+    return async function (dispatch: ThunkDispatch, getState: getStateType) {
         dispatch(fetchFilesListPending());
 
         if (url === '/') {

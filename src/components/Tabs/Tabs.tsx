@@ -1,28 +1,27 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
+import { Dispatch as DispatchType } from 'redux';
 
 import * as globalSelectors from 'src/client/selectors/global';
 import * as globalActions from 'src/client/actions/global';
 import { TABS_BY_BREADCRUMB_TYPE } from 'src/client/constants';
-
+import { AppStateType } from 'src/types/store';
+import { TabsComponentProps, TabNameType } from './types';
 import Tab from './Tab';
 
 import './Tabs.css';
 
-@connect(
-    state => ({
-        activeBreadcrumbItemType: globalSelectors.getLastActiveBreadcrumbItem(state).type,
-        activeTabName: globalSelectors.getActiveTabName(state),
-    }),
-    dispatch => ({
-        setActiveTab: tabName => dispatch(globalActions.setActiveTab(tabName))
-    })
-)
+const mapStateToProps = (state: AppStateType) => ({
+    activeBreadcrumbItemType: globalSelectors.getLastActiveBreadcrumbItem(state).type,
+    activeTabName: globalSelectors.getActiveTabName(state),
+});
 
-export default class Tabs extends Component {
-    setActiveTab = tabName => {
+const mapDispatchToProps = (dispatch: DispatchType) => ({
+    setActiveTab: (tabName: TabNameType) => dispatch(globalActions.setActiveTab(tabName))
+});
+
+class Tabs extends Component<TabsComponentProps> {
+    setActiveTab = (tabName: TabNameType) => {
         const { setActiveTab } = this.props;
         setActiveTab(tabName);
     };
@@ -34,7 +33,7 @@ export default class Tabs extends Component {
             <div className="tabs">
                 {
                     TABS_BY_BREADCRUMB_TYPE[activeBreadcrumbItemType]
-                        .map(tabName => (
+                        .map((tabName: TabNameType) => (
                             <Tab
                                 key={tabName}
                                 onClick={() => this.setActiveTab(tabName)}
@@ -49,7 +48,4 @@ export default class Tabs extends Component {
     }
 }
 
-Tabs.propTypes = {
-    activeBreadcrumbItemType: PropTypes.oneOf([ 'tree', 'blob' ]),
-    setActiveTab: PropTypes.func,
-};
+export default connect(mapStateToProps, mapDispatchToProps)(Tabs);

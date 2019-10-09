@@ -2,31 +2,31 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 
 import * as globalSelectors from 'src/client/selectors/global';
 import * as globalActions from 'src/client/actions/global';
 import * as clientUtils from 'src/client/utils';
-
-import './Breadcrumbs.css';
+import { AppStateType } from 'src/types/store';
+import { ThunkDispatch } from 'src/types/actions';
+import { TabNameType } from 'src/components/Tabs/types';
+import { BreadcrumbsComponentType, BreadcrumbItemType } from './types';
 import { FILES_TYPES, TABS_BY_BREADCRUMB_TYPE } from '../../client/constants';
+import './Breadcrumbs.css';
 
-@withRouter
-@connect(
-    state => ({
-        breadCrumbsPath: globalSelectors.getBreadCrumbsPath(state),
-        currentBranch: globalSelectors.getCurrentBranch(state),
-        lastActiveBreadcrumbItem: globalSelectors.getLastActiveBreadcrumbItem(state),
-    }),
-    dispatch => ({
-        setActiveCrumb: props => dispatch(globalActions.setActiveCrumb(props)),
-        fetchFilesList: ({ url }) => dispatch(globalActions.fetchFilesList({ url })),
-        setActiveTab: tabName => dispatch(globalActions.setActiveTab(tabName))
-    })
-)
+const mapStateToProps = (state: AppStateType) => ({
+    breadCrumbsPath: globalSelectors.getBreadCrumbsPath(state),
+    currentBranch: globalSelectors.getCurrentBranch(state),
+    lastActiveBreadcrumbItem: globalSelectors.getLastActiveBreadcrumbItem(state),
+});
 
-export default class Breadcrumbs extends Component {
-    handleCrumbClick = ({ index, crumb }) => {
+const mapDispatchToProps = (dispatch: ThunkDispatch) => ({
+    setActiveCrumb: (props: { index?: number, item?: string }) => dispatch(globalActions.setActiveCrumb(props)),
+    fetchFilesList: (props: { url: string }) => dispatch(globalActions.fetchFilesList(props)),
+    setActiveTab: (tabName: TabNameType) => dispatch(globalActions.setActiveTab(tabName))
+});
+
+class Breadcrumbs extends Component<BreadcrumbsComponentType> {
+    handleCrumbClick = ({ index, crumb }: { index: number, crumb: BreadcrumbItemType }) => {
         const { setActiveCrumb, history, fetchFilesList, lastActiveBreadcrumbItem, setActiveTab } = this.props;
         const { type, name } = crumb;
         const { type: lastCrumbType, name: lastCrumbName } = lastActiveBreadcrumbItem;
@@ -73,12 +73,4 @@ export default class Breadcrumbs extends Component {
     }
 }
 
-Breadcrumbs.propTypes = {
-    breadCrumbsPath: PropTypes.arrayOf(
-        PropTypes.shape({
-            name: PropTypes.string,
-            type: PropTypes.oneOf([ 'tree', 'blob' ])
-        })
-    ),
-    setActiveCrumb: PropTypes.func
-};
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Breadcrumbs));
