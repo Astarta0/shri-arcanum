@@ -1,32 +1,34 @@
 import axios from 'axios';
-import { Dispatch as DispatchType } from 'redux';
+import { AnyAction } from 'redux';
 
-import { AppStateType } from 'src/types/store';
-import { getStateType, ThunkAction, RawThunkAction, ThunkDispatch } from 'src/types/actions';
+import { getStateType, ThunkAction, ThunkDispatch } from 'src/types/actions';
 
-
+import { BreadcrumbItemType } from 'src/components/Breadcrumbs/types';
+import { FileObject } from 'src/types/index';
 import config from 'src/config';
+import { TabNameType } from 'src/components/Tabs/types';
 import * as TYPE from './types';
+
 
 const AXIOS_INSTANCE = axios.create({
     baseURL: `http://localhost:${config.server.port}`
 });
 
-export function setActiveCrumb({ index, item }: { index?: number, item?: string }) {
+export function setActiveCrumb({ index, item }: { index?: number, item?: BreadcrumbItemType }) {
     return {
         type: TYPE.SET_ACTIVE_CRUMB,
         payload: { index, item }
     };
 }
 
-export function setActiveTab(tabName) {
+export function setActiveTab(tabName: TabNameType) {
     return {
         type: TYPE.SET_ACTIVE_TAB,
         payload: { tabName }
     };
 }
 
-export function searchFiles(searchName) {
+export function searchFiles(searchName: string) {
     return {
         type: TYPE.SEARCH_FILES_BY_NAME,
         payload: {
@@ -35,14 +37,14 @@ export function searchFiles(searchName) {
     };
 }
 
-export function setCurrentRepository(item) {
+export function setCurrentRepository(item: string) {
     return {
         type: TYPE.SET_CURRENT_REPOSITORY,
         payload: { item }
     };
 }
 
-export function setNewBreadcrumbPath({ name, type }) {
+export function setNewBreadcrumbPath({ name, type }: BreadcrumbItemType) {
     const crumb = { name, type };
     return {
         type: TYPE.SET_NEW_BREADCRUMB_PATH,
@@ -69,7 +71,7 @@ export function fetchFilesList({ url }: { url: string }): ThunkAction {
     };
 }
 
-export function fetchFileContent({ url, name }) {
+export function fetchFileContent({ url, name }: { url: string, name: string }): ThunkAction {
     return async function (dispatch) {
         dispatch(fetchFileContentPending());
 
@@ -85,40 +87,40 @@ export function fetchFileContent({ url, name }) {
     };
 }
 
-export function fetchFileContentPending() {
+export function fetchFileContentPending(): AnyAction {
     return {
         type: TYPE.FETCH_FILE_CONTENT_PENDING
     };
 }
 
-export function fetchFilesListPending() {
+export function fetchFilesListPending(): AnyAction {
     return {
         type: TYPE.FETCH_FILES_LIST_PENDING
     };
 }
 
-export function fetchFileContentSuccess({ data, name }) {
+export function fetchFileContentSuccess({ data, name }: { data: string, name: string }): AnyAction {
     return {
         type: TYPE.FETCH_FILE_CONTENT_SUCCESS,
         payload: { data, name }
     };
 }
 
-export function fetchFilesListSuccess({ files }) {
+export function fetchFilesListSuccess({ files }: { files: Array<FileObject> }): AnyAction {
     return {
         type: TYPE.FETCH_FILES_LIST_SUCCESS,
         payload: { files }
     };
 }
 
-export function fetchFileContentFail(e) {
+export function fetchFileContentFail(e: Error): AnyAction {
     return {
         type: TYPE.FETCH_FILE_CONTENT_FAIL,
         payload: { error: e.message }
     };
 }
 
-export function fetchFilesListFail(e) {
+export function fetchFilesListFail(e: Error): AnyAction {
     return {
         type: TYPE.FETCH_FILES_LIST_FAIL,
         payload: { error: e.message }

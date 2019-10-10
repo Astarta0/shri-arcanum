@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom';
 
-import configureStore from 'src/store/configureStore';
+import configureStore from 'src/store/configureStore.ts';
 import App from 'src/components/App';
 import * as serverUtils from './serverUtils';
 import { prepareState } from './middlewares';

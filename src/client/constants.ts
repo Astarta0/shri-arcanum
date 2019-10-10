@@ -1,18 +1,19 @@
 import { TabNameType } from 'src/components/Tabs/types';
+import { BreadcrumbType } from 'src/components/Breadcrumbs/types';
 
 export const TABS_BY_BREADCRUMB_TYPE: Record<'tree' | 'blob', Array<TabNameType>> = {
     tree: [ 'files', 'branches' ],
     blob: [ 'details', 'history' ]
 };
 
-export const TABS_TYPES = {
+export const TABS_TYPES: Record<TabNameType, TabNameType> = {
     files: 'files',
     branches: 'branches',
     details: 'details',
     history: 'history'
 };
 
-export const FILES_TYPES = {
+export const FILES_TYPES: Record<BreadcrumbType, BreadcrumbType> = {
     blob: 'blob',
     tree: 'tree'
 };

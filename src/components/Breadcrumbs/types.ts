@@ -12,7 +12,7 @@ export interface BreadcrumbsComponentType extends RouteComponentProps<any> {
     breadCrumbsPath: Array<BreadcrumbItemType>;
     currentBranch: string,
     lastActiveBreadcrumbItem: BreadcrumbItemType,
-    setActiveCrumb: (props: { index?: number, item?: string }) => void,
+    setActiveCrumb: (props: { index?: number, item?: BreadcrumbItemType }) => void,
     fetchFilesList: ({ url } : { url: string }) => void,
     setActiveTab: (tabName: TabNameType) => void
 }

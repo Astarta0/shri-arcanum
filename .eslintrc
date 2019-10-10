@@ -43,7 +43,6 @@
     "react/no-unused-prop-types": ["warn"],
     "react/jsx-handler-names": ["error"],
     "react/jsx-filename-extension": ["off"],
-    "react/prefer-stateless-function": ["warn"],
     "react/require-default-props": ["off"],
     "react/jsx-indent": ["error", 4],
     "react/jsx-indent-props": "off",
@@ -83,7 +82,8 @@
     "max-classes-per-file": ["error", 4],
     // https://github.com/typescript-eslint/typescript-eslint/issues/342
     "no-undef": "off",
-    "no-unused-vars": "off"
+    "no-unused-vars": "off",
+    "react/prefer-stateless-function": "off"
   },
   "extends": [
     "eslint:recommended",

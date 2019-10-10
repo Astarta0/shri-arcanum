@@ -7,10 +7,8 @@ import * as globalSelectors from 'src/client/selectors/global';
 import * as globalActions from 'src/client/actions/global';
 import * as clientUtils from 'src/client/utils';
 import { AppStateType } from 'src/types/store';
-import { ThunkDispatch } from 'src/types/actions';
-import { TabNameType } from 'src/components/Tabs/types';
+import { FILES_TYPES, TABS_BY_BREADCRUMB_TYPE } from 'src/client/constants';
 import { BreadcrumbsComponentType, BreadcrumbItemType } from './types';
-import { FILES_TYPES, TABS_BY_BREADCRUMB_TYPE } from '../../client/constants';
 import './Breadcrumbs.css';
 
 const mapStateToProps = (state: AppStateType) => ({
@@ -19,11 +17,11 @@ const mapStateToProps = (state: AppStateType) => ({
     lastActiveBreadcrumbItem: globalSelectors.getLastActiveBreadcrumbItem(state),
 });
 
-const mapDispatchToProps = (dispatch: ThunkDispatch) => ({
-    setActiveCrumb: (props: { index?: number, item?: string }) => dispatch(globalActions.setActiveCrumb(props)),
-    fetchFilesList: (props: { url: string }) => dispatch(globalActions.fetchFilesList(props)),
-    setActiveTab: (tabName: TabNameType) => dispatch(globalActions.setActiveTab(tabName))
-});
+const mapDispatchToProps = {
+    setActiveCrumb: globalActions.setActiveCrumb,
+    fetchFilesList: globalActions.fetchFilesList,
+    setActiveTab: globalActions.setActiveTab
+};
 
 class Breadcrumbs extends Component<BreadcrumbsComponentType> {
     handleCrumbClick = ({ index, crumb }: { index: number, crumb: BreadcrumbItemType }) => {

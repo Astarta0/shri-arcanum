@@ -1,4 +1,4 @@
-require('@babel/register')({});
+require('@babel/register')({ extensions: ['.js', '.jsx', '.ts', '.tsx'] });
 
 require('ignore-styles');
 
