@@ -5,18 +5,19 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom';
+import yargs from 'yargs';
 
+import { IRequest, IContext } from 'src/types/index';
 import configureStore from 'src/store/configureStore.ts';
 import App from 'src/components/App';
 import * as serverUtils from './serverUtils';
 import { prepareState } from './middlewares';
 import router from './routes/reposRouter';
 import { getHTMLtemplate } from './ssr';
-import { NextFunction, Response } from 'express-serve-static-core';
 
 const app = express();
 
-const { path: folderPath } = require('yargs')
+const { p: folderPath } = yargs
     .usage('Usage: node $0 --path <path>')
     .option('p', {
         alias: 'path',
@@ -24,7 +25,7 @@ const { path: folderPath } = require('yargs')
         coerce: serverUtils.checkFolderPath,
         demandOption: true
     })
-    .fail((msg, err, yargs) => {
+    .fail((msg: string, err: Error) => {
         console.error(msg, '\n');
 
         if (err) {
@@ -54,11 +55,16 @@ app.get('/favicon.ico', (req, res) => {
 app.use('/api/repos/', router);
 
 // eslint-disable-next-line consistent-return
-app.get('*', prepareState, (req, res) => {
+app.get('*', prepareState, (req: IRequest, res: Response) => {
     // This context object contains the results of the render
-    const context = {};
+    const context: IContext = {};
 
     const preloadedState = req.state;
+
+    if (!preloadedState) {
+        throw new Error('Can\'t configure store');
+    }
+
     const store = configureStore(preloadedState);
 
     const appHtml = renderToStaticMarkup(
@@ -86,7 +92,7 @@ app.get('*', prepareState, (req, res) => {
     );
 });
 
-app.use((err, req, res, next) => {
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     console.error(err);
     const error = err.message || '500:\nSorry, it\'s me, not you!   🙀';
     res.status(500);

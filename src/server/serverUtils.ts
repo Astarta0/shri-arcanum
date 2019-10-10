@@ -2,6 +2,7 @@ import path from 'path';
 import { promises as fs } from 'fs';
 import util from 'util';
 import { exec } from 'child_process';
+import { Express } from 'express';
 
 import config from 'src/config';
 import APP_DATA from './appData';
@@ -11,7 +12,7 @@ import { NoRepositoriesError } from './errors';
 
 const promisifyExec = util.promisify(exec);
 
-export function checkFolderPath(folderPath) {
+export function checkFolderPath(folderPath: string) {
     folderPath = path.normalize(folderPath);
     if (!path.isAbsolute(folderPath)) {
         throw new Error('Path to folder must be absolute!');
@@ -19,7 +20,7 @@ export function checkFolderPath(folderPath) {
     return folderPath;
 }
 
-export function serverInit({ folderPath, app }) {
+export function serverInit({ folderPath, app }: {folderPath: string, app: Express}) {
     // Проверяем, существует ли папка.
     fs.stat(folderPath)
         .then(stats => {
@@ -30,10 +31,6 @@ export function serverInit({ folderPath, app }) {
 
             return getRepositoriesinFolder(folderPath);
         })
-        .catch(() =>
-        // Если папки нет - мы окажемся здесь и создадим ее.
-            fs.mkdir(folderPath, { recursive: true })
-        )
         .then(repositoriesInFolder => {
             // Есть ли в папке репозитории
             if (!repositoriesInFolder.length) {

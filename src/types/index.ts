@@ -1,3 +1,5 @@
+import { Request } from 'express';
+
 import { AppStateType } from 'src/types/store';
 
 declare global {
@@ -15,3 +17,12 @@ export type FileObject = {
     committerEmail: string,
     date: number
 };
+
+export interface IRequest extends Request{
+    state?: AppStateType
+}
+
+export interface IContext {
+    url?: string,
+    status?: number
+}

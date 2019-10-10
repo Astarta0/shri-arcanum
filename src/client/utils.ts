@@ -6,7 +6,7 @@ export const convertTimestampToDate = (timestamp: number) => {
     return date.setLocale('en-US').toLocaleString({ weekday: 'short', day: '2-digit', month: 'short' });
 };
 
-export const cutPathFromFileName = (name: string) => (name.includes('/') ? name.split('/').pop() : name);
+export const cutPathFromFileName = (name: string) => (name.includes('/') ? name.split('/').pop() : name) || null;
 
 export const cutBreadCrumbsPath = ({ path, name, type }: { path: string, name: string, type: BreadcrumbType }) => {
     const arrPaths = path.split('/').filter(p => p);

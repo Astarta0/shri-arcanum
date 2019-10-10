@@ -1,9 +1,11 @@
+import { AppStateType } from 'src/types/store';
+
 /**
  * Возвращает шаблон HTML
  * @param {String} appHtml,
  * @param {Object} preloadedState
  */
-export function getHTMLtemplate({ html, state }) {
+export function getHTMLtemplate({ html, state }: {html: string, state: AppStateType}) {
     return `
   <!DOCTYPE html>
   <html lang="en">

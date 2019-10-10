@@ -3,12 +3,12 @@ import { promises as fs } from 'fs';
 import junk from 'junk';
 
 import { FILES_TYPES } from 'src/client/constants';
-import utils from './utils';
-import gitUtils from './gitUtils';
+import * as utils from './utils';
+import * as gitUtils from './gitUtils';
 import APP_DATA from './appData';
 import queue from './queue';
 
-export const getRepositoriesinFolder = async folderPath => {
+export const getRepositoriesinFolder = async (folderPath?: string) => {
     let files = await fs.readdir(folderPath || APP_DATA.FOLDER_PATH);
     files = files.filter(junk.not);
 
@@ -30,12 +30,18 @@ export const getRepositoriesinFolder = async folderPath => {
     return statsArr;
 };
 
-export const getMainBranchName = async repositoryId => {
+export const getMainBranchName = async (repositoryId: string) => {
     const mainBranch = await gitUtils.defineMainBranchName(repositoryId);
     return mainBranch || '';
 };
 
-export const restoreBreadCrumbsByPath = ({ repoName, repoPath, typeOfLastCrumb }) => {
+interface RestoreBreadCrumbsByPathOptions {
+    repoName: string,
+    repoPath: string,
+    typeOfLastCrumb: 'tree'|'blob'
+}
+export const restoreBreadCrumbsByPath = (options: RestoreBreadCrumbsByPathOptions) => {
+    const { repoName, repoPath, typeOfLastCrumb } = options;
     if (!repoPath) {
         // запрашиваем содержимое в корне репозитория
         return [ {
@@ -44,11 +50,12 @@ export const restoreBreadCrumbsByPath = ({ repoName, repoPath, typeOfLastCrumb }
         } ];
     }
 
-    let paths = repoPath.split('/').filter(p => p);
-    paths = paths.map((p, index, arr) => ({
-        name: p,
-        type: index === arr.length - 1 ? FILES_TYPES[typeOfLastCrumb] : FILES_TYPES.tree
-    }));
+    const paths = repoPath.split('/')
+        .filter(p => p)
+        .map((p, index, arr) => ({
+            name: p,
+            type: index === arr.length - 1 ? FILES_TYPES[typeOfLastCrumb] : FILES_TYPES.tree
+        }));
     paths.unshift({
         name: repoName,
         type: FILES_TYPES.tree
@@ -56,7 +63,13 @@ export const restoreBreadCrumbsByPath = ({ repoName, repoPath, typeOfLastCrumb }
     return paths;
 };
 
-export const getRopositoryTree = async ({ repositoryId, commitHash, repoPath }) => {
+interface GetRopositoryTreeOptions {
+    repositoryId: string,
+    commitHash?: string,
+    repoPath?: string
+}
+export const getRopositoryTree = async (options: GetRopositoryTreeOptions) => {
+    const { repositoryId, commitHash, repoPath } = options;
     const targetDir = utils.getRepositoryPath(repositoryId);
 
     // Добавляем обработчик в очередь, так как тут делается checkout и pull,
@@ -69,7 +82,7 @@ export const getRopositoryTree = async ({ repositoryId, commitHash, repoPath }) 
 
         let mainBranch = commitHash;
 
-        if (!commitHash) {
+        if (!mainBranch) {
             mainBranch = await gitUtils.defineMainBranchName(repositoryId);
         }
 
@@ -85,23 +98,25 @@ export const getRopositoryTree = async ({ repositoryId, commitHash, repoPath }) 
             await gitUtils.pull(repositoryId);
         }
 
-        repoPath = repoPath
-            ? repoPath.endsWith('/')
-                ? repoPath.slice(1)
-                : repoPath.slice(1) + '/'
-            : '';
-
-        const files = await gitUtils.getWorkingTree(
+        return gitUtils.getWorkingTree(
             repositoryId,
             mainBranch,
             repoPath
+                ? repoPath.endsWith('/')
+                    ? repoPath.slice(1)
+                    : repoPath.slice(1) + '/'
+                : ''
         );
-
-        return files;
     });
 };
 
-export const getFileContent = async ({ repositoryId, commitHash, pathToFile, res }) => {
+interface GetFileContentOptions {
+    repositoryId: string,
+    commitHash: string,
+    pathToFile: string
+}
+export const getFileContent = async (options: GetFileContentOptions) => {
+    const { repositoryId, commitHash, pathToFile } = options;
     const targetDir = utils.getRepositoryPath(repositoryId);
 
     await utils.checkDir(targetDir);

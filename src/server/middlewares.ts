@@ -1,3 +1,7 @@
+import { Response, NextFunction } from 'express';
+import { IRequest } from 'src/types';
+import { AppStateType } from 'src/types/store';
+
 import { cutPathFromFileName } from 'src/client/utils';
 import {
     getRepositoriesinFolder,
@@ -12,7 +16,7 @@ import { NoRepositoriesError } from './errors';
 import * as serverUtils from './serverUtils';
 import { TABS_TYPES, TABS_BY_BREADCRUMB_TYPE, FILES_TYPES } from '../client/constants';
 
-export async function prepareState(req, res, next) {
+export async function prepareState(req: IRequest, res: Response, next: NextFunction) {
     const preloadedState = serverUtils.initPreloadedState();
     try {
         req.state = await getData({ req, state: preloadedState });
@@ -22,7 +26,7 @@ export async function prepareState(req, res, next) {
     }
 }
 
-async function getData({ req, state }) {
+async function getData({ req, state }: { req: IRequest, state: AppStateType}) {
     const repositoriesInFolder = await getRepositoriesinFolder();
 
     if (!repositoriesInFolder.length) {
@@ -41,6 +45,14 @@ async function getData({ req, state }) {
         const filesInRepoByPath = await getRopositoryTree({ repositoryId: currentRepo });
         const currentBranch = await getMainBranchName(currentRepo);
 
+        const initialBreadCrumb: {
+            name: string,
+            type: 'tree' | 'blob'
+        } = {
+            name: currentRepo,
+            type: 'tree'
+        };
+
         return {
             ...state,
             global: {
@@ -48,19 +60,16 @@ async function getData({ req, state }) {
                 currentRepo,
                 currentBranch,
                 repositories: repositoriesInFolder,
-                breadCrumbsPath: [
-                    {
-                        name: currentRepo,
-                        type: 'tree'
-                    }
-                ],
+                breadCrumbsPath: [ initialBreadCrumb ],
                 activeTabName: TABS_TYPES.files,
                 filesInRepoByPath
             }
         };
     }
     // в url есть параметры
-    let [ , currentRepo, type, currentBranch, repoPath ] = urlPaths;
+    let [ , currentRepo, contentType, currentBranch, repoPath ] = urlPaths;
+
+    let type = contentType as 'tree' | 'blob';
 
     if (!repositoriesInFolder.includes(currentRepo)) {
         // пустой state c пустым полем currentRepo для редиректа на 404

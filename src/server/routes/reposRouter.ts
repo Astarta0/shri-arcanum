@@ -1,13 +1,9 @@
-import express from 'express';
-import junk from 'junk';
-import path from 'path';
-import { promises as fs } from 'fs';
+import express, { Request, Response, NextFunction } from 'express';
 import rimraf from 'rimraf';
+import { getRepositoriesinFolder, getRopositoryTree } from 'src/server/helpers';
 import { NoAnyRemoteBranchesError, NoDirectoryError } from '../errors';
 import * as utils from '../utils';
 import * as gitUtils from '../gitUtils';
-import queue from '../queue';
-import APP_DATA from '../appData';
 
 const router = express.Router();
 
@@ -178,7 +174,7 @@ router.get(
     })
 );
 
-router.use((err, req, res, next) => {
+router.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     console.error(err);
 
     if (err instanceof NoDirectoryError) {
@@ -198,4 +194,4 @@ router.use((err, req, res, next) => {
     res.status(501).json({ error: err.message || 'Server error' });
 });
 
-module.exports = router;
+export default router;
