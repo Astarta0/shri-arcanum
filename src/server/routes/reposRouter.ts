@@ -1,14 +1,13 @@
-const express = require('express');
-const path = require('path');
-const fs = require('fs').promises;
-const rimraf = require('rimraf');
-const junk = require('junk');
-
-const { NoDirectoryError, NoAnyRemoteBranchesError } = require('../errors');
-const utils = require('../utils');
-const gitUtils = require('../gitUtils');
-const APP_DATA = require('../appData');
-const queue = require('../queue');
+import express from 'express';
+import junk from 'junk';
+import path from 'path';
+import { promises as fs } from 'fs';
+import rimraf from 'rimraf';
+import { NoAnyRemoteBranchesError, NoDirectoryError } from '../errors';
+import * as utils from '../utils';
+import * as gitUtils from '../gitUtils';
+import queue from '../queue';
+import APP_DATA from '../appData';
 
 const router = express.Router();
 

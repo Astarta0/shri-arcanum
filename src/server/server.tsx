@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import path from 'path';
 import bodyParser from 'body-parser';
 import React from 'react';
@@ -12,6 +12,7 @@ import * as serverUtils from './serverUtils';
 import { prepareState } from './middlewares';
 import router from './routes/reposRouter';
 import { getHTMLtemplate } from './ssr';
+import { NextFunction, Response } from 'express-serve-static-core';
 
 const app = express();
 

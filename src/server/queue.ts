@@ -1,15 +1,15 @@
 class Queue {
+    queue: Promise<unknown>;
+
     constructor() {
         this.queue = Promise.resolve();
     }
 
-    push(fn) {
+    push(fn: () => Promise<any>) {
         const job = this.queue.then(fn);
         this.queue = job.catch(() => {});
         return job;
     }
 }
 
-const queue = new Queue();
-
-module.exports = queue;
+export default new Queue();
