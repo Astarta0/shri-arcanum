@@ -17,28 +17,7 @@ router.get(
     '/',
     utils.wrapRoute(async (req, res) => {
         try {
-            let files = await fs.readdir(APP_DATA.FOLDER_PATH);
-            files = files.filter(junk.not);
-
-            let statsArr = await Promise.all(
-                files.map(file => {
-                    return fs
-                        .stat(path.join(APP_DATA.FOLDER_PATH, '/', file))
-                        .then(stat => {
-                            return {
-                                file,
-                                stat,
-                            };
-                        })
-                        .catch(err => err);
-                })
-            );
-
-            statsArr = statsArr
-                .filter(sObj => !(sObj instanceof Error))
-                .filter(sObj => sObj.stat.isDirectory())
-                .map(sObj => sObj.file);
-
+            const statsArr = await getRepositoriesinFolder();
             res.json({ folders: statsArr });
         } catch (err) {
             console.error(err);
@@ -163,49 +142,10 @@ router.get(
 router.get(
     /^\/([^\/]+)(?:\/tree(?:\/([^\/]+)(\/.*)?)?)?$/,
     utils.wrapRoute(async (req, res) => {
-        let { 0: repositoryId, 1: commitHash, 2: repoPath } = req.params;
+        const { 0: repositoryId, 1: commitHash, 2: repoPath } = req.params;
 
-        const targetDir = utils.getRepositoryPath(repositoryId);
-
-        // Добавляем обработчик в очередь, так как тут делается checkout и pull,
-        // чтобы избежать race condition, когда одновременно придет несколько
-        // запросов на получение информации из разных веток одного репозитория,
-        // или из другого репозитория
-        await queue.push(async () => {
-            await utils.checkDir(targetDir);
-
-            let mainBranch = commitHash;
-
-            if (!commitHash) {
-                mainBranch = await gitUtils.defineMainBranchName(repositoryId);
-            }
-
-            await gitUtils.checkout(repositoryId, mainBranch);
-
-            // если хеш коммита - нельзя выполнить pull, чтобы получить последнее актуальное состояние
-            // получаем список веток и смотрим передали нам имя ветки или хеш коммита
-            const remoteBranches = await gitUtils.getAllRemoteBranches(repositoryId);
-
-            const isBranchName = remoteBranches.includes(mainBranch);
-
-            if (isBranchName) {
-                await gitUtils.pull(repositoryId);
-            }
-
-            repoPath = repoPath
-                ? repoPath.endsWith('/')
-                    ? repoPath.slice(1)
-                    : repoPath.slice(1) + '/'
-                : '';
-
-            const files = await gitUtils.getWorkingTree(
-                repositoryId,
-                mainBranch,
-                repoPath
-            );
-
-            res.json({ files });
-        });
+        const files = await getRopositoryTree({ repositoryId, commitHash, repoPath });
+        res.json({ files });
     })
 );
 
