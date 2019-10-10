@@ -14,19 +14,19 @@ import { FILES_TYPES, TABS_TYPES } from 'src/client/constants';
 @connect(
     state => ({
         currentRepo: globalSelectors.getCurrentRepo(state),
-        activeCrtumb: globalSelectors.getLastActiveBreadcrumbItem(state),
+        activeCrumb: globalSelectors.getLastActiveBreadcrumbItem(state),
         activeTabName: globalSelectors.getActiveTabName(state)
     })
 )
 
 export default class IndexPage extends Component {
     render() {
-        if (!this.props.currentRepo) {
+        const { activeCrumb, activeTabName, currentRepo } = this.props;
+        if (!currentRepo) {
             return <Redirect to="/notFound" replace />;
         }
 
-        const { activeCrtumb, activeTabName } = this.props;
-        const activeCrumbType = activeCrtumb.type;
+        const activeCrumbType = activeCrumb.type;
         const isSearchFieldDisabled = activeCrumbType === FILES_TYPES.blob || activeTabName !== TABS_TYPES.files;
 
         return (
