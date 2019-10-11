@@ -64,13 +64,13 @@ class Header extends Component<IHeaderProps, IHeaderState> {
     }
 
     handleClickOutside = (e: MouseEvent): void => {
-        const { currentTarget } = e;
+        const { target } = e;
 
-        if (!this.refWrapper || !currentTarget) return;
+        if (!this.refWrapper) return;
 
         const { current } = this.refWrapper;
 
-        if (current && !current.contains(currentTarget as Node)) {
+        if (current && !current.contains(target as Node)) {
             this.setState({
                 isMenuOpened: false,
             });
@@ -78,10 +78,10 @@ class Header extends Component<IHeaderProps, IHeaderState> {
     };
 
     handleDropDownClick = (e: React.MouseEvent<HTMLDivElement>) => {
-        const { currentTarget } = e;
+        const { target } = e;
         const dropDown = this.refWrapper;
 
-        if (!dropDown.current || !dropDown.current.firstChild || !dropDown.current.firstChild.contains(currentTarget)) return;
+        if (!dropDown.current || !dropDown.current.firstChild || !dropDown.current.firstChild.contains(target as Node)) return;
 
         this.setState(state => {
             return {

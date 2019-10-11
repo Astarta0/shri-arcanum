@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "server": "node index.js -p $1",
     "webpack": "webpack --mode development --watch",
     "eslint": "eslint src/** webpack.config.js",
     "eslint:fix": "eslint --fix src/** webpack.config.js",

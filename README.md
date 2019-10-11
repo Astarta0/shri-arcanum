@@ -3,11 +3,18 @@
 #### DEPENDENCES
  - node v12.6.0+
 
-#### Запуск в режиме разработки
+#### Запуск приложения
 ```
-бекенд: node index.js -p PATH
+бекенд:
+node index.js -p PATH
+или команда npm
+npm run server -- PATH
+
 фронтенд: npm run webpack
 ```
+
+
+npm run server -- /Users/astarta0/repos
 
 Места, вызвавшие трудности, при переводе на TS:
 1. Типизация redux actions
