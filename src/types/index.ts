@@ -5,6 +5,8 @@ import { AppStateType } from 'src/types/store';
 declare global {
     interface Window {
         __PRELOADED_STATE__: AppStateType;
+        __REDUX_DEVTOOLS_EXTENSION__: Function;
+        __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: Function;
     }
 }
 

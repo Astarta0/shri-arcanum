@@ -7,8 +7,8 @@ import { AppStateType } from 'src/types/store';
 import rootReducer from '../client/reducers/root';
 
 /* global window */
-const composeEnhancers = typeof window !== 'undefined' && (window as any).__REDUX_DEVTOOLS_EXTENSION__
-    ? (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+const composeEnhancers = typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION__
+    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     : compose;
 const enhancer = composeEnhancers(applyMiddleware(thunk, logger));
 
