@@ -14,7 +14,9 @@ npm run server -- PATH
 
 проверка типов: npm run type-check
 ```
-Для использования TS, и его компиляции в JS я выбрала [способ через babel](https://devblogs.microsoft.com/typescript/typescript-and-babel-7/)
+Для использования TS, и его компиляции в JS я выбрала [способ через babel](https://devblogs.microsoft.com/typescript/typescript-and-babel-7/). 
+
+Сам Babel в node js подключен через [babel-register](https://babeljs.io/docs/en/babel-register). См. [index.js](https://github.com/Astarta0/shri-arcanum/blob/typescript/index.js)
 
 У меня не было опыта работы с TS.
 Места, вызвавшие трудности, при переводе на TS:
