@@ -1,4 +1,13 @@
-const config = {
+type ConfigType = {
+    api: {
+        apiBaseUrl: string
+    },
+    server: {
+        port: number
+    }
+}
+
+const config: Record<string, ConfigType> = {
     development: {
         api: {
             apiBaseUrl: '/api/repos/'
