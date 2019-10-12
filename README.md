@@ -18,6 +18,8 @@ npm run server -- PATH
 
 Сам Babel в node js подключен через [babel-register](https://babeljs.io/docs/en/babel-register). См. [index.js](https://github.com/Astarta0/shri-arcanum/blob/typescript/index.js)
 
+Тесты(модульные и интеграционные) я не типизировала, т.к. считаю что обычно в тестах простой код, который не сложно поддерживать и они имеют точно направленную логику.
+
 У меня не было опыта работы с TS.
 Места, вызвавшие трудности, при переводе на TS:
 1. Типизация redux actions
